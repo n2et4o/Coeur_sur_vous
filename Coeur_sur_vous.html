@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cœur sur vous</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#FF69B4", secondary: "#FFB6C1" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      }
+      .content-area {
+      padding-top: 70px;
+      padding-bottom: 80px;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <!-- Nav Bar -->
+    <nav class="fixed top-0 w-full bg-white shadow-md z-50">
+      <div class="flex items-center justify-between px-4 py-3">
+        <div class="flex items-center">
+          <img
+            src="https://static.readdy.ai/image/00eb2ed7a492d47deb0ec98885f6ae54/e0f890a39b43ac0b6ebd6df837e3ea4a.png"
+            alt="Les Restos du Coeur"
+            class="h-8"
+            style="filter: hue-rotate(320deg);"
+          />
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 flex items-center justify-center">
+            <i class="ri-notification-3-line text-gray-600"></i>
+          </div>
+          <div class="w-8 h-8 flex items-center justify-center">
+            <i class="ri-user-line text-gray-600"></i>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Content Area -->
+    <div class="content-area px-4">
+      <!-- Header -->
+      <div class="mb-6">
+        <h1 class="text-2xl font-semibold text-gray-800">Cœur sur vous</h1>
+        <p class="text-gray-600 text-sm">
+          Optimisation de la distribution alimentaire
+        </p>
+      </div>
+      <!-- Main Banner -->
+      <div class="relative rounded-lg overflow-hidden mb-6 shadow-md">
+        <img
+          src="https://readdy.ai/api/search-image?query=volunteers%20distributing%20food%20at%20a%20food%20bank%2C%20people%20helping%20others%2C%20charity%20work%2C%20food%20donation%2C%20community%20service%2C%20warm%20and%20compassionate%20atmosphere%2C%20soft%20lighting%2C%20high%20quality%20image&width=375&height=180&seq=1&orientation=landscape"
+          class="w-full h-44 object-cover object-top"
+          alt="Distribution alimentaire"
+        />
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4"
+        >
+          <h2 class="text-white font-semibold">Bienvenue aux Restos du Cœur</h2>
+          <p class="text-white text-sm">
+            Ensemble pour une distribution alimentaire efficace
+          </p>
+        </div>
+      </div>
+      <!-- Quick Access -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">Accès rapide</h2>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="flex flex-col items-center">
+            <div
+              class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
+            >
+              <i class="ri-calendar-line text-primary ri-lg"></i>
+            </div>
+            <span
+              class="text-xs text-gray-700 text-center whitespace-nowrap overflow-hidden text-overflow-ellipsis"
+              >Réserver</span
+            >
+          </div>
+          <div
+            class="flex flex-col items-center cursor-pointer"
+            onclick="showQRCode('user-qr')"
+          >
+            <div
+              class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
+            >
+              <i class="ri-qr-code-line text-primary ri-lg"></i>
+            </div>
+            <span
+              class="text-xs text-gray-700 text-center whitespace-nowrap overflow-hidden text-overflow-ellipsis"
+              >Mon QR</span
+            >
+          </div>
+          <div class="flex flex-col items-center">
+            <div
+              class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
+            >
+              <i class="ri-map-pin-line text-primary ri-lg"></i>
+            </div>
+            <span
+              class="text-xs text-gray-700 text-center whitespace-nowrap overflow-hidden text-overflow-ellipsis"
+              >Centres</span
+            >
+          </div>
+          <div class="flex flex-col items-center">
+            <div
+              class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
+            >
+              <i class="ri-question-line text-primary ri-lg"></i>
+            </div>
+            <span
+              class="text-xs text-gray-700 text-center whitespace-nowrap overflow-hidden text-overflow-ellipsis"
+              >Aide</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Upcoming Distribution -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">
+          Prochaine distribution
+        </h2>
+        <div class="bg-white rounded-lg shadow-md p-4 border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <h3 class="font-medium text-gray-800">Centre Paris 11ème</h3>
+              <p class="text-sm text-gray-600">15 Rue Oberkampf, 75011</p>
+            </div>
+            <div
+              class="bg-primary/10 text-primary font-medium px-3 py-1 rounded-full text-xs"
+            >
+              Confirmé
+            </div>
+          </div>
+          <div class="flex items-center mb-3">
+            <div class="w-5 h-5 flex items-center justify-center mr-2">
+              <i class="ri-calendar-line text-gray-600"></i>
+            </div>
+            <span class="text-sm text-gray-700"
+              >Dimanche 11 mai 2025, 14:00 - 16:00</span
+            >
+          </div>
+          <div class="flex items-center mb-4">
+            <div class="w-5 h-5 flex items-center justify-center mr-2">
+              <i class="ri-user-line text-gray-600"></i>
+            </div>
+            <span class="text-sm text-gray-700">Numéro de passage : 42</span>
+          </div>
+          <button
+            onclick="showQRCode('distribution-qr')"
+            class="w-full bg-primary text-white py-2.5 font-medium !rounded-button cursor-pointer flex items-center justify-center"
+          >
+            <i class="ri-qr-code-line mr-2"></i>
+            Afficher mon QR code
+          </button>
+        </div>
+      </div>
+      <!-- Map -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">
+          Centres à proximité
+        </h2>
+        <div class="rounded-lg overflow-hidden shadow-md h-48 relative">
+          <div
+            class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+          ></div>
+          <div class="absolute top-3 left-3 right-3">
+            <div class="bg-white rounded-lg shadow-sm p-2 flex items-center">
+              <div class="w-6 h-6 flex items-center justify-center mr-2">
+                <i class="ri-search-line text-gray-600"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="Rechercher un centre"
+                class="text-sm flex-1 outline-none border-none"
+              />
+            </div>
+          </div>
+          <div class="absolute bottom-3 right-3">
+            <button
+              class="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center cursor-pointer"
+            >
+              <i class="ri-focus-3-line text-primary"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Recent Activity -->
+      <div class="mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-lg font-semibold text-gray-800">Historique</h2>
+          <a href="#" class="text-primary text-sm">Voir tout</a>
+        </div>
+        <div class="space-y-3">
+          <div class="bg-white rounded-lg shadow-sm p-3 border border-gray-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-medium text-gray-800">Centre Paris 11ème</h3>
+                <p class="text-xs text-gray-500">4 mai 2025, 14:30</p>
+              </div>
+              <span
+                class="text-green-600 bg-green-50 text-xs px-2 py-1 rounded-full"
+                >Complété</span
+              >
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-sm p-3 border border-gray-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-medium text-gray-800">Centre Paris 20ème</h3>
+                <p class="text-xs text-gray-500">27 avril 2025, 10:15</p>
+              </div>
+              <span
+                class="text-green-600 bg-green-50 text-xs px-2 py-1 rounded-full"
+                >Complété</span
+              >
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-sm p-3 border border-gray-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-medium text-gray-800">Centre Paris 13ème</h3>
+                <p class="text-xs text-gray-500">20 avril 2025, 16:00</p>
+              </div>
+              <span
+                class="text-green-600 bg-green-50 text-xs px-2 py-1 rounded-full"
+                >Complété</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Project Info -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">
+          À propos du projet
+        </h2>
+        <div class="bg-white rounded-lg shadow-md p-4 border border-gray-100">
+          <p class="text-sm text-gray-700 mb-3">
+            Notre projet vise à optimiser la distribution alimentaire des Restos
+            du Cœur en numérisant les données des bénéficiaires grâce à une
+            application mobile.
+          </p>
+          <div class="space-y-2">
+            <div class="flex items-start">
+              <div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                <i class="ri-check-line text-primary"></i>
+              </div>
+              <p class="text-sm text-gray-700">
+                Réservation de créneaux horaires pour fluidifier l'accueil
+              </p>
+            </div>
+            <div class="flex items-start">
+              <div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                <i class="ri-check-line text-primary"></i>
+              </div>
+              <p class="text-sm text-gray-700">
+                Génération et scan de QR codes pour un accès rapide
+              </p>
+            </div>
+            <div class="flex items-start">
+              <div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                <i class="ri-check-line text-primary"></i>
+              </div>
+              <p class="text-sm text-gray-700">
+                Consultation d'un historique personnalisé
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Team Members -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">
+          Équipe du projet
+        </h2>
+        <div class="bg-white rounded-lg shadow-md p-4 border border-gray-100">
+          <ul class="space-y-3">
+            <li class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3"
+              >
+                <i class="ri-user-line text-primary"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Joss Douniama-Okana</p>
+                <p class="text-xs text-gray-500">meitoh.douniama-okana@efrei.net</p>
+              </div>
+            </li>
+            <li class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3"
+              >
+                <i class="ri-user-line text-primary"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Garance Grilikhes</p>
+                <p class="text-xs text-gray-500">garance.grilikhes@efrei.net</p>
+              </div>
+            </li>
+            <li class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3"
+              >
+                <i class="ri-user-line text-primary"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Warren Badeau</p>
+                <p class="text-xs text-gray-500">warren.badeau@efrei.net</p>
+              </div>
+            </li>
+            <li class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3"
+              >
+                <i class="ri-user-line text-primary"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Farida Bedewy</p>
+                <p class="text-xs text-gray-500">farida.bedewy@efrei.net</p>
+              </div>
+            </li>
+            <li class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3"
+              >
+                <i class="ri-user-line text-primary"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Liam Croguennec</p>
+                <p class="text-xs text-gray-500">liam.croguennec@efrei.net</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Tab Bar -->
+    <div
+      class="fixed bottom-0 w-full bg-white border-t border-gray-200 py-2 px-4 z-50"
+    >
+      <div class="grid grid-cols-5">
+        <div class="flex flex-col items-center cursor-pointer">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-home-5-fill text-primary"></i>
+          </div>
+          <span class="text-xs text-primary mt-1">Accueil</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-calendar-line text-gray-500"></i>
+          </div>
+          <span class="text-xs text-gray-500 mt-1">Réserver</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer">
+          <div
+            class="w-12 h-12 rounded-full bg-primary flex items-center justify-center -mt-5 shadow-lg"
+          >
+            <i class="ri-qr-scan-line text-white ri-lg"></i>
+          </div>
+          <span class="text-xs text-gray-500 mt-1">Scanner</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-map-pin-line text-gray-500"></i>
+          </div>
+          <span class="text-xs text-gray-500 mt-1">Centres</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-user-line text-gray-500"></i>
+          </div>
+          <span class="text-xs text-gray-500 mt-1">Profil</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabItems = document.querySelectorAll(".grid.grid-cols-5 > div");
+        tabItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            // Reset all tabs
+            tabItems.forEach((tab) => {
+              const icon = tab.querySelector("i");
+              const text = tab.querySelector("span");
+              if (icon && !icon.classList.contains("text-white")) {
+                icon.className = icon.className
+                  .replace("fill", "line")
+                  .replace("text-primary", "text-gray-500");
+              }
+              if (text && !text.classList.contains("text-white")) {
+                text.className = text.className.replace(
+                  "text-primary",
+                  "text-gray-500",
+                );
+              }
+            });
+            // Set active tab
+            const icon = this.querySelector("i");
+            const text = this.querySelector("span");
+            if (icon && !icon.classList.contains("text-white")) {
+              icon.className = icon.className
+                .replace("line", "fill")
+                .replace("text-gray-500", "text-primary");
+            }
+            if (text && !text.classList.contains("text-white")) {
+              text.className = text.className.replace(
+                "text-gray-500",
+                "text-primary",
+              );
+            }
+          });
+        });
+      });
+    </script>
+    <div
+      id="qr-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Mon QR Code</h3>
+          <button
+            onclick="closeQRModal()"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div
+          id="qr-container"
+          class="flex justify-center items-center mb-4"
+        ></div>
+        <p class="text-sm text-gray-600 text-center mb-4">
+          Présentez ce QR code lors de votre passage
+        </p>
+        <button
+          onclick="closeQRModal()"
+          class="w-full bg-primary text-white py-2.5 font-medium !rounded-button"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+    <script>
+      function showQRCode(type) {
+        const modal = document.getElementById("qr-modal");
+        const container = document.getElementById("qr-container");
+        container.innerHTML = "";
+
+        const data =
+          type === "distribution-qr"
+            ? "DIST-42-20250511-PARIS11"
+            : "USER-123456-RESTOS";
+
+        new QRCode(container, {
+          text: data,
+          width: 200,
+          height: 200,
+          colorDark: "#FF69B4",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+
+        modal.style.display = "flex";
+      }
+      function closeQRModal() {
+        const modal = document.getElementById("qr-modal");
+        modal.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
