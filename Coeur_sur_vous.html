@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cœur sur vous</title>
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -69,7 +70,7 @@
           <div class="w-8 h-8 flex items-center justify-center">
             <i class="ri-notification-3-line text-gray-600"></i>
           </div>
-          <div class="w-8 h-8 flex items-center justify-center">
+          <div class="w-8 h-8 flex items-center justify-center" onclick= "handleProfileClick()">
             <i class="ri-user-line text-gray-600"></i>
           </div>
         </div>
@@ -116,9 +117,8 @@
             >
           </div>
           <div
-            class="flex flex-col items-center cursor-pointer"
-            onclick="showQRCode('user-qr')"
-          >
+            class="flex flex-col items-center cursor-pointer" 
+            >
             <div
               class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
             >
@@ -129,7 +129,7 @@
               >Mon QR</span
             >
           </div>
-          <div class="flex flex-col items-center">
+          <div class="flex flex-col items-center" onclick="showCentresModal()">
             <div
               class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
             >
@@ -140,7 +140,7 @@
               >Centres</span
             >
           </div>
-          <div class="flex flex-col items-center">
+          <div class="flex flex-col items-center" onclick="showHelpModal()">
             <div
               class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-1"
             >
@@ -158,34 +158,9 @@
         <h2 class="text-lg font-semibold text-gray-800 mb-3">
           Prochaine distribution
         </h2>
-        <div class="bg-white rounded-lg shadow-md p-4 border border-gray-100">
-          <div class="flex justify-between items-center mb-3">
-            <div>
-              <h3 class="font-medium text-gray-800">Centre Paris 11ème</h3>
-              <p class="text-sm text-gray-600">15 Rue Oberkampf, 75011</p>
-            </div>
-            <div
-              class="bg-primary/10 text-primary font-medium px-3 py-1 rounded-full text-xs"
-            >
-              Confirmé
-            </div>
-          </div>
-          <div class="flex items-center mb-3">
-            <div class="w-5 h-5 flex items-center justify-center mr-2">
-              <i class="ri-calendar-line text-gray-600"></i>
-            </div>
-            <span class="text-sm text-gray-700"
-              >Dimanche 11 mai 2025, 14:00 - 16:00</span
-            >
-          </div>
-          <div class="flex items-center mb-4">
-            <div class="w-5 h-5 flex items-center justify-center mr-2">
-              <i class="ri-user-line text-gray-600"></i>
-            </div>
-            <span class="text-sm text-gray-700">Numéro de passage : 42</span>
-          </div>
+        <div id="distribution-section"></div>
           <button
-            onclick="showQRCode('distribution-qr')"
+            onclick="showQRCode('qr')"
             class="w-full bg-primary text-white py-2.5 font-medium !rounded-button cursor-pointer flex items-center justify-center"
           >
             <i class="ri-qr-code-line mr-2"></i>
@@ -391,7 +366,7 @@
           </div>
           <span class="text-xs text-gray-500 mt-1">Réserver</span>
         </div>
-        <div class="flex flex-col items-center cursor-pointer">
+        <div class="flex flex-col items-center cursor-pointer" onclick="showScanModal()">
           <div
             class="w-12 h-12 rounded-full bg-primary flex items-center justify-center -mt-5 shadow-lg"
           >
@@ -399,21 +374,507 @@
           </div>
           <span class="text-xs text-gray-500 mt-1">Scanner</span>
         </div>
-        <div class="flex flex-col items-center cursor-pointer">
+        <div class="flex flex-col items-center cursor-pointer" onclick="showCentresModal()">
           <div class="w-6 h-6 flex items-center justify-center">
             <i class="ri-map-pin-line text-gray-500"></i>
           </div>
           <span class="text-xs text-gray-500 mt-1">Centres</span>
         </div>
-        <div class="flex flex-col items-center cursor-pointer">
-          <div class="w-6 h-6 flex items-center justify-center">
-            <i class="ri-user-line text-gray-500"></i>
+
+        <div class="flex flex-col items-center cursor-pointer" onclick= "handleProfileClick()">
+          <div class="w-6 h-6 flex items-center justify-center" >
+            <i class="ri-user-line text-gray-500">
+            </i>
           </div>
           <span class="text-xs text-gray-500 mt-1">Profil</span>
         </div>
       </div>
     </div>
+    <!-- Ajoute ceci AVANT la balise </body> -->
+
+    <!-- Modal Profil -->
+     
+    <div id="profil-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Connexion au profil</h3>
+          <button onclick="closeModal('profil-modal')" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Nom</label>
+          <input id="input-nom" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Prénom</label>
+          <input id="input-prenom" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+        <button onclick="saveProfile()" class="w-full bg-primary text-white py-2.5 font-medium rounded-md">Valider</button>
+      </div>
+    </div>
+
+    <!-- Modal Réservation -->
+    <div id="reservation-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Réserver un créneau</h3>
+          <button onclick="closeModal('reservation-modal')" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Centre</label>
+          <select id="select-centre" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+            <option value="Paris 11ème">Paris 11ème - 15 Rue Oberkampf</option>
+            <option value="Paris 20ème">Paris 20ème - 8 Rue des Pyrénées</option>
+            <option value="Paris 13ème">Paris 13ème - 25 Bd Vincent Auriol</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Date</label>
+          <input id="input-date" type="date" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Heure</label>
+          <input id="input-heure" type="time" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+        <button onclick="saveReservation()" class="w-full bg-primary text-white py-2.5 font-medium rounded-md">Valider</button>
+      </div>
+    </div>
+
+    <div
+      id="qr-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Mon QR Code</h3>
+          <button
+            onclick="closeQRModal()"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div
+          id="qr-container"
+          class="flex justify-center items-center mb-4"
+        ></div>
+        <p class="text-sm text-gray-600 text-center mb-4">
+          Présentez ce QR code lors de votre passage
+        </p>
+        <button
+          onclick="closeQRModal()"
+          class="w-full bg-primary text-white py-2.5 font-medium !rounded-button"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Informations utilisateur -->
+    <div id="user-profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Mes informations</h3>
+          <button onclick="closeModal('user-profile-modal')" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <ul class="text-sm text-gray-700 space-y-2">
+          <li><strong>Nom :</strong> <span id="info-nom"></span></li>
+          <li><strong>Prénom :</strong> <span id="info-prenom"></span></li>
+          <li><strong>Centre :</strong> <span id="info-centre"></span></li>
+          <li><strong>Date :</strong> <span id="info-date"></span></li>
+          <li><strong>Heure :</strong> <span id="info-heure"></span></li>
+        </ul>
+        <button onclick="closeModal('user-profile-modal')" class="mt-6 w-full bg-primary text-white py-2.5 font-medium rounded-md">Fermer</button>
+      </div>
+    </div>
+
+    <!-- Modal Centres -->
+    <div id="centres-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full overflow-y-auto max-h-[80vh]">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Centres Restos du Cœur</h3>
+          <button onclick="closeModal('centres-modal')" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <ul id="centres-list" class="space-y-2">
+          <!-- Les centres seront insérés ici dynamiquement -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modal Aide -->
+    <div id="help-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-md w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Besoin d'aide ?</h3>
+          <button onclick="closeModal('help-modal')" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div class="text-sm text-gray-700 space-y-3">
+          <p><strong>Objectif :</strong> Cette application vous permet de réserver un créneau pour la distribution alimentaire des Restos du Cœur et de générer un QR code personnalisé.</p>
+          <p><strong>Étapes :</strong></p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Connectez-vous en remplissant votre nom et prénom dans la section Profil.</li>
+            <li>Réservez un créneau via la section "Réserver".</li>
+            <li>Une fois la réservation faite, accédez à votre QR code.</li>
+            <li>Présentez ce QR code lors de votre passage au centre.</li>
+          </ul>
+          <p> N'oubliez pas d'arriver à l'heure avec votre QR code pour faciliter l'organisation !</p>
+        </div>
+        <button onclick="closeModal('help-modal')" class="w-full bg-primary text-white py-2.5 font-medium rounded-md mt-4">
+          Fermer
+        </button>
+      </div>
+    </div>
+
+    <div id="scan-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Scanner un QR Code</h3>
+          <button onclick="closeScanModal()" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div id="qr-reader" style="width: 100%;"></div>
+        <div id="scan-result" class="mt-4 text-sm text-gray-700"></div>
+      </div>
+    </div>
+
+
     <script>
+      let userProfile = { nom: null, prenom: null, centre: null, date: null, heure: null };
+      const centresData = [
+        {
+          nom: "Centre Paris 01 / Louvre",
+          adresse: "4 Place du Louvre, 75001 Paris",
+          email: "ad75.louvre@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 10 / Boy-Zelenski",
+          adresse: "18 Rue Boy-Zelenski, 75010 Paris",
+          email: "ad75.boyzelenski@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 11 / Cesselin",
+          adresse: "5 Rue Cesselin, 75011 Paris",
+          email: "ad75.cesselin@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 13 / JS Bach",
+          adresse: "8 Rue Jean Sébastien Bach, 75013 Paris",
+          email: "ad75.jsbach@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 14 / Julia Bartet",
+          adresse: "20 Rue Julia Bartet, 75014 Paris",
+          email: "ad75.juliabartet@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 15 / Alleray",
+          adresse: "15 Rue d'Alleray, 75015 Paris",
+          email: "ad75.alleray@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 18 / Poissonniers",
+          adresse: "124 Rue des Poissonniers, 75018 Paris",
+          email: "ad75.poissonniers@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 19 / La Villette",
+          adresse: "15 Avenue de la Porte de la Villette, 75019 Paris",
+          email: "ad75.lavillette@restosducoeur.org"
+        },
+        {
+          nom: "Centre Paris 20 / Pierre Bayle",
+          adresse: "10 Rue Pierre Bayle, 75020 Paris",
+          email: "ad75.pierrebayle@restosducoeur.org"
+        }
+        // Ajoutez d'autres centres si nécessaire
+      ];
+
+
+      function requestNotificationPermission() {
+        if ("Notification" in window) {
+          Notification.requestPermission().then(permission => {
+            if (permission !== "granted") {
+              alert("Activez les notifications pour recevoir des rappels.");
+            }
+          });
+        }
+      }
+
+      function scheduleNotifications(rdvDate) {
+        if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+        const now = new Date();
+        const diffMs = rdvDate - now;
+
+        const schedule = [
+          { minutesBefore: 1440, label: "Demain, vous avez un rendez-vous aux Restos du Cœur." }, // 1 jour
+          { minutesBefore: 60, label: "Dans 1 heure, votre rendez-vous commence." },
+          { minutesBefore: 30, label: "Votre rendez-vous est dans 30 minutes." },
+          { minutesBefore: 15, label: "Attention, rendez-vous dans 15 minutes." },
+          { minutesBefore: 5, label: "Dernier rappel : votre rendez-vous est dans 5 minutes." },
+        ];
+
+        schedule.forEach(({ minutesBefore, label }) => {
+          const delay = diffMs - minutesBefore * 60 * 1000;
+          if (delay > 0) {
+            setTimeout(() => {
+              new Notification("Rappel de rendez-vous", { body: label });
+            }, delay);
+          }
+        });
+      }
+
+
+      function showHelpModal() {
+        document.getElementById("help-modal").style.display = "flex";
+      }
+      function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+      }
+
+
+      function handleProfileClick() {
+        if (!userProfile.nom || !userProfile.prenom) {
+          // Pas encore connecté → ouvrir modal de connexion
+          document.getElementById("profil-modal").style.display = "flex";
+        } else {
+          // Déjà connecté → afficher les infos
+          showUserProfile();
+        }
+      }
+
+      function showScanModal() {
+        document.getElementById("scan-modal").style.display = "flex";
+        const qrReader = new Html5Qrcode("qr-reader");
+
+        qrReader.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: 250
+          },
+          (decodedText, decodedResult) => {
+            document.getElementById("scan-result").innerText = "Contenu du QR : " + decodedText;
+            qrReader.stop(); // stop après 1 scan
+          },
+          (errorMessage) => {
+            // Erreur de scan (ignorée ici)
+          }
+        ).catch(err => {
+          document.getElementById("scan-result").innerText = "Erreur : " + err;
+        });
+      }
+
+      function closeScanModal() {
+        document.getElementById("scan-modal").style.display = "none";
+        Html5Qrcode.getCameras().then(cameras => {
+          if (cameras && cameras.length) {
+            const qrReader = new Html5Qrcode("qr-reader");
+            qrReader.clear(); // Nettoie l'interface
+          }
+        });
+      }
+
+
+      function showCentresModal() {
+        const centresList = document.getElementById("centres-list");
+        centresList.innerHTML = ""; // Réinitialise la liste
+
+        centresData.forEach(centre => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="p-4 border border-gray-200 rounded-md shadow-sm">
+              <h4 class="font-semibold text-gray-800">${centre.nom}</h4>
+              <p class="text-sm text-gray-600">${centre.adresse}</p>
+              <p class="text-sm text-gray-600">Email : <a href="mailto:${centre.email}" class="text-primary">${centre.email}</a></p>
+            </div>
+          `;
+          centresList.appendChild(li);
+        });
+
+        document.getElementById("centres-modal").style.display = "flex";
+      }
+
+
+      function showUserProfile() {
+        document.getElementById("info-nom").textContent = userProfile.nom || "Non renseigné";
+        document.getElementById("info-prenom").textContent = userProfile.prenom || "Non renseigné";
+        document.getElementById("info-centre").textContent = userProfile.centre || "Non réservé";
+        document.getElementById("info-date").textContent = userProfile.date || "Non réservé";
+        document.getElementById("info-heure").textContent = userProfile.heure || "Non réservé";
+        document.getElementById("user-profile-modal").style.display = "flex";
+      }
+
+
+
+      function checkProfileBefore(action) {
+        if (!userProfile.nom || !userProfile.prenom) {
+          document.getElementById("profil-modal").style.display = "flex";
+          document.getElementById("profil-modal").dataset.next = action;
+        } else {
+          proceedToAction(action);
+        }
+      }
+
+      function saveProfile() {
+        const nom = document.getElementById("input-nom").value;
+        const prenom = document.getElementById("input-prenom").value;
+        if (nom && prenom) {
+          userProfile.nom = nom;
+          userProfile.prenom = prenom;
+          closeModal("profil-modal");
+
+          //  Sécurité : valeur par défaut
+          const nextAction = document.getElementById("profil-modal").dataset.next || 'qr';
+          proceedToAction(nextAction);
+        } else {
+          alert("Veuillez remplir les deux champs.");
+        }
+      }
+
+
+      function proceedToAction(action) {
+        if (action === 'qr') generateQRCode();
+        else if (action === 'reservation') {
+          document.getElementById("reservation-modal").style.display = "flex";
+        }
+      }
+
+      function saveReservation() {
+        const centre = document.getElementById("select-centre").value;
+        const date = document.getElementById("input-date").value;
+        const heure = document.getElementById("input-heure").value;
+
+        if (!centre || !date || !heure) {
+          alert("Veuillez remplir tous les champs.");
+          return;
+        }
+
+        // Validation : la date doit être aujourd'hui ou dans le futur
+        const now = new Date();
+        const selectedDate = new Date(date + "T" + heure);
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        if (selectedDate < now) {
+          alert("La date et l'heure choisies sont déjà passées. Veuillez sélectionner un créneau futur.");
+          return;
+        }
+
+        // Validation : heure entre 08:00 et 18:00
+        const heureParts = heure.split(":");
+        const heureInt = parseInt(heureParts[0], 10);
+        const minuteInt = parseInt(heureParts[1], 10);
+        if (heureInt < 8 || (heureInt >= 18 && minuteInt > 0)) {
+          alert("Les réservations sont possibles uniquement entre 08:00 et 18:00.");
+          return;
+        }
+
+        // Enregistrement de la réservation
+        userProfile.centre = centre;
+        userProfile.date = date;
+        userProfile.heure = heure;
+        userProfile.numero = Math.floor(Math.random() * 100) + 1;
+        
+        closeModal("reservation-modal");
+        alert("Réservation enregistrée. Vous pouvez générer votre QR Code.");
+
+        updateDistributionSection(); // ← APPEL ICI
+        // Demande la permission d'envoyer des notifications
+          requestNotificationPermission();
+
+          // Planifie les notifications à partir de la date et l'heure de réservation
+          scheduleNotifications(new Date(`${date}T${heure}`));
+      }
+
+      function updateDistributionSection() {
+        const section = document.getElementById("distribution-section");
+        if (!section) return;
+
+        if (userProfile.centre && userProfile.date && userProfile.heure) {
+          section.innerHTML = `
+            <div class="bg-white rounded-lg shadow-md p-4 border border-gray-100">
+              <div class="flex justify-between items-center mb-3">
+                <div>
+                  <h3 class="font-medium text-gray-800">${userProfile.centre}</h3>
+                  <p class="text-sm text-gray-600">Adresse fournie par le centre</p>
+                </div>
+                <div class="bg-primary/10 text-primary font-medium px-3 py-1 rounded-full text-xs">Confirmé</div>
+              </div>
+              <div class="flex items-center mb-3">
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-calendar-line text-gray-600"></i>
+                </div>
+                <span class="text-sm text-gray-700">${userProfile.date}, ${userProfile.heure}</span>
+              </div>
+              <div class="flex items-center mb-4">
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-user-line text-gray-600"></i>
+                </div>
+                <span class="text-sm text-gray-700">Numéro de passage : ${userProfile.numero}</span>
+              </div>
+            </div>
+          `;
+        } else {
+          section.innerHTML = `<p class="text-sm text-gray-600">Aucune réservation en cours.</p>`;
+        }
+      }
+
+
+      function generateQRCode() {
+        if (!userProfile.nom || !userProfile.prenom || !userProfile.date || !userProfile.heure || !userProfile.centre) {
+          alert("Veuillez d'abord effectuer une réservation pour générer un QR Code complet.");
+          return;
+        }
+
+        const modal = document.getElementById("qr-modal");
+        const container = document.getElementById("qr-container");
+        container.innerHTML = "";
+
+        const data = `Nom: ${userProfile.nom}
+        Prénom: ${userProfile.prenom}
+        Centre: ${userProfile.centre}
+        Date: ${userProfile.date}
+        Heure: ${userProfile.heure}
+        Numéro de passage: ${userProfile.numero}`;
+
+        showQRCode('qr');
+
+        new QRCode(container, {
+          text: data,
+          width: 200,
+          height: 200,
+          colorDark: "#FF69B4",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+
+        modal.style.display = "flex";
+      }
+
+
+      function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+      }
+
+      document.querySelectorAll("span").forEach((el) => {
+        if (el.innerText.trim() === "Réserver") {
+          el.parentElement.addEventListener("click", () => checkProfileBefore("reservation"));
+        }
+        if (el.innerText.trim() === "Mon QR") {
+          el.parentElement.addEventListener("click", () => checkProfileBefore("qr"));
+        }
+      });
+
+
       document.addEventListener("DOMContentLoaded", function () {
         const tabItems = document.querySelectorAll(".grid.grid-cols-5 > div");
         tabItems.forEach((item) => {
@@ -451,46 +912,30 @@
           });
         });
       });
-    </script>
-    <div
-      id="qr-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
-    >
-      <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">Mon QR Code</h3>
-          <button
-            onclick="closeQRModal()"
-            class="text-gray-500 hover:text-gray-700"
-          >
-            <i class="ri-close-line ri-lg"></i>
-          </button>
-        </div>
-        <div
-          id="qr-container"
-          class="flex justify-center items-center mb-4"
-        ></div>
-        <p class="text-sm text-gray-600 text-center mb-4">
-          Présentez ce QR code lors de votre passage
-        </p>
-        <button
-          onclick="closeQRModal()"
-          class="w-full bg-primary text-white py-2.5 font-medium !rounded-button"
-        >
-          Fermer
-        </button>
-      </div>
-    </div>
-    <script>
+    
       function showQRCode(type) {
         const modal = document.getElementById("qr-modal");
         const container = document.getElementById("qr-container");
         container.innerHTML = "";
 
-        const data =
-          type === "distribution-qr"
-            ? "DIST-42-20250511-PARIS11"
-            : "USER-123456-RESTOS";
+        let data = "QR CODE INCOMPLET";
+        data = `Nom: ${userProfile.nom}
+        Prénom: ${userProfile.prenom}
+        Centre: ${userProfile.centre}
+        Date: ${userProfile.date}
+        Heure: ${userProfile.heure}`;
+  
+        if (type === "distribution-qr") {
+          data = `Nom: ${userProfile.nom}
+        Prénom: ${userProfile.prenom}
+        Centre: ${userProfile.centre}
+        Date: ${userProfile.date}
+        Heure: ${userProfile.heure}`;
+        
+        } else if (type !== "distribution-qr") {
+          data = `Nom: ${userProfile.nom || ""}\nPrénom: ${userProfile.prenom || ""}`;
+        }
+
 
         new QRCode(container, {
           text: data,
@@ -507,6 +952,19 @@
         const modal = document.getElementById("qr-modal");
         modal.style.display = "none";
       }
+
+      function showUserProfile() {
+        // Remplit les infos dans le modal
+        document.getElementById("info-nom").textContent = userProfile.nom || "Non renseigné";
+        document.getElementById("info-prenom").textContent = userProfile.prenom || "Non renseigné";
+        document.getElementById("info-centre").textContent = userProfile.centre || "Non réservé";
+        document.getElementById("info-date").textContent = userProfile.date || "Non réservé";
+        document.getElementById("info-heure").textContent = userProfile.heure || "Non réservé";
+
+        // Affiche le modal
+        document.getElementById("user-profile-modal").style.display = "flex";
+      }
+
     </script>
   </body>
 </html>
